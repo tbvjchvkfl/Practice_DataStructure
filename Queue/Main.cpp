@@ -14,7 +14,7 @@ struct Queue
 {
 	int QArray[QUEUE_SIZE]{};
 
-	int Front = QUEUE_SIZE;
+	int Front = 0;
 	int Last = -1;
 };
 
@@ -23,17 +23,17 @@ void QueueMessage(Queue& queue);
 void Push(Queue& queue, int input);
 void Pop(Queue& queue);
 
-
 int main()
 {
 	Queue IsQueue;
 
 	std::cout << "Queue" << std::endl;
 	Interactiontuto(IsQueue);
-	QueueMessage(IsQueue);
+	//QueueMessage(IsQueue);
 
 	while (true)
 	{
+		QueueMessage(IsQueue);
 		int input{};
 		std::cin >> input;
 		
@@ -63,7 +63,7 @@ void Interactiontuto(Queue& queue)
 void QueueMessage(Queue& queue)
 {
 	std::cout << "================" << std::endl;
-	for (int i = 0; i < queue.Front; i++)
+	for (int i = queue.Front; i < queue.Last + 1; i++)
 	{
 		std::cout << queue.QArray[i] << std::endl;
 	}
@@ -72,22 +72,26 @@ void QueueMessage(Queue& queue)
 
 void Push(Queue& queue, int input)
 {
-	if (queue.Last == queue.Front)
+	if (queue.Last == QUEUE_SIZE - 1)
 	{
+		
 		std::cout << "큐가 가득 찼어요!" << std::endl;
 		return;
 	}
 	queue.Last = queue.Last++;
 	queue.QArray[queue.Last] = input;
-	QueueMessage(queue);
+	//QueueMessage(queue);
 }
 
 void Pop(Queue& queue)
 {
-	queue.Last = -1;
-	queue.Front = queue.Front--;
-	if (queue.Front == queue.Last)
+	queue.Front = queue.Front++;
+	
+	//QueueMessage(queue);
+	if (queue.Front == queue.Last + 1)
 	{
+		queue.Front = 0;
+		queue.Last = -1;
 		std::cout << "전부 비었습니다. 값을 넣으세요." << std::endl;
 		return;
 	}
